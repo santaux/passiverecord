@@ -39,7 +39,11 @@ module PassiveRecord
     def validate_unique(attr_name, opts={})
       opts.merge!(message: "Validation Error: Uniqueness of '#{attr_name}' attribute is required")
       attr_value = self.send(attr_name)
-      @errors << opts[:message] if (!attr_value.nil? && self.class.query.exists?(attr_name => attr_value))
+      query = self.class.query
+      query = query.where("id != #{id}") unless new_record?
+      if (!attr_value.nil? && query.exists?(attr_name => attr_value))
+        @errors << opts[:message]
+      end
     end
 
     module ClassMethods

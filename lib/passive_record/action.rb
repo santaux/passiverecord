@@ -20,6 +20,16 @@ module PassiveRecord
       self.class.create opts
     end
 
+    def update
+      update_opt = self.class.updateable_columns.map { |c|
+        quoted_value = self.class.add_quotes(instance_variable_get(:"@#{c}"))
+        "#{c} = #{quoted_value}"
+      }.join(', ')
+      where_opt  = "id = #{id}"
+      self.class.update_all update_opt, where_opt
+      reload
+    end
+
     def delete
       self.class.delete_all "id = #{self.id}"
     end

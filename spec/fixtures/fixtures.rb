@@ -4,7 +4,7 @@ require './spec/fixtures/subitem'
 require './spec/fixtures/category'
 
 def create_fake_item(opts={})
-  opts = {name: Faker::Lorem.word, category_id: create_fake_category}.merge!(opts)
+  opts = {name: Faker::Lorem.word, category_id: create_fake_category.id}.merge!(opts)
   Item.create opts
 end
 

@@ -61,7 +61,7 @@ module PassiveRecord
       @sql =  "SELECT #{select} FROM #{table_name} "
       @sql += " WHERE "    + where_list.join(' ') unless where_list.size.zero?
       @sql += " ORDER BY " + order_by   if order_by
-      @sql += " LIMIT "    + limit_with if order_by
+      @sql += " LIMIT "    + limit_with if limit_with
       @sql
     end
 
@@ -116,7 +116,7 @@ module PassiveRecord
         key, value = el
 
         if value.is_a? Array
-          opt = "#{key} IN (#{value.to_s.gsub(/\"/, "'").gsub(/[|]/, '')})"
+          opt = "#{key} IN (#{value.to_s.gsub(/\"/, "'").gsub(/\[|\]/, '')})"
         else
           value = add_quotes(value)
           opt = "#{key} = #{value}"

@@ -55,7 +55,7 @@ module PassiveRecord
         values = opts.values.map { |v| add_quotes(v)  }.join(',')
         sql =  "INSERT INTO #{table_name} (#{fields}) VALUES (#{values})"
 
-        PassiveRecord::Adapter.insert_transaction sql
+        find PassiveRecord::Adapter.insert_transaction sql
       end
 
       def update_all(update_opt,where_opt=nil)

@@ -8,7 +8,10 @@ module PassiveRecord
       instance_eval do
         @errors = []
       end
-      super
+      self.class.class_eval %{
+        @@validations ||= []
+      }
+      super(*args)
     end
 
     def valid?
@@ -27,13 +30,6 @@ module PassiveRecord
       else
         true
       end
-    end
-
-    def initialize(*args)
-      self.class.class_eval %{
-        @@validations ||= []
-      }
-      super(*args)
     end
 
     protected

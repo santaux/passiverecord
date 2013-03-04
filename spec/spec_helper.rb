@@ -5,7 +5,10 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-require 'passiverecord'
+lib = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require 'passive_record'
 require 'fixtures/fixtures'
 
 RSpec.configure do |config|

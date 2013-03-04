@@ -1,8 +1,8 @@
 require 'singleton'
 require 'active_support/inflector'
 require 'active_support/core_ext/module/delegation.rb'
-require './lib/passive_record/adapter/abstract'
-require './lib/passive_record/adapter/sqlite'
+require 'passive_record/adapter/abstract'
+require 'passive_record/adapter/sqlite'
 
 module PassiveRecord
   module Adapter extend self

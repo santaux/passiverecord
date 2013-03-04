@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'passive_record/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "passive_record"
+  spec.name          = "passiverecord"
   spec.version       = PassiveRecord::VERSION
   spec.authors       = ["santaux"]
   spec.email         = ["santaux@gmail.com"]
@@ -20,4 +20,8 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "activesupport"
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rr"
+  spec.add_development_dependency "faker"
 end

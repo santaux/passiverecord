@@ -1,9 +1,9 @@
-require './lib/passive_record/attributes'
-require './lib/passive_record/query'
-require './lib/passive_record/action'
-require './lib/passive_record/validation'
-require './lib/passive_record/association'
-require './lib/passive_record/adapter'
+require 'passive_record/attributes'
+require 'passive_record/query'
+require 'passive_record/action'
+require 'passive_record/validation'
+require 'passive_record/association'
+require 'passive_record/adapter'
 
 module PassiveRecord
   class Base

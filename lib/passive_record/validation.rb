@@ -5,9 +5,7 @@ module PassiveRecord
     attr_reader :errors
 
     def initialize(*args)
-      instance_eval do
-        @errors = []
-      end
+      @errors = []
       self.class.class_eval %{
         @@validations ||= []
       }

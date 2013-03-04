@@ -18,6 +18,18 @@ module PassiveRecord
         @_columns_with_types = {}
         @_table_names = nil
       end
+
+      def execute(sql)
+        puts sql if @config[:explain]
+      end
+
+      def run(sql)
+        puts sql if @config[:explain]
+      end
+
+      def insert_transaction(sql)
+        puts sql if @config[:explain]
+      end
     end
   end
 end

@@ -6,7 +6,7 @@ load './lib/passive_record/adapter.rb'
 load './lib/passive_record/query.rb'
 load './lib/passive_record/base.rb'
 
-@adapter = PassiveRecord::Adapter.connect({adapter: "sqlite", database: "test.sqlite3"})
+@adapter = PassiveRecord::Adapter.connect({adapter: "sqlite", database: "test.sqlite3", explain: true})
 
 class Item < PassiveRecord::Base
   has_one :subitem
@@ -15,23 +15,11 @@ class Item < PassiveRecord::Base
   validate :unique, :name
 end
 
-class Subitem
-  include PassiveRecord::Attributes
-  extend PassiveRecord::Quering
-  include PassiveRecord::Action
-  include PassiveRecord::Validation
-  extend PassiveRecord::Association
-
+class Subitem < PassiveRecord::Base
   belongs_to :item
 end
 
 
-class Category
-  include PassiveRecord::Attributes
-  extend PassiveRecord::Quering
-  include PassiveRecord::Action
-  include PassiveRecord::Validation
-  extend PassiveRecord::Association
-
+class Category < PassiveRecord::Base
   has_many :items
 end

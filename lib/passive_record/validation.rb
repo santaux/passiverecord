@@ -29,15 +29,22 @@ module PassiveRecord
       end
     end
 
+    def initialize(*args)
+      self.class.class_eval %{
+        @@validations ||= []
+      }
+      super(*args)
+    end
+
     protected
 
     def validate_presence(attr_name, opts={})
-      opts.merge!(message: "Validation Error: Presence of '#{attr_name}' attribute is required")
+      opts = {message: "Validation Error: Presence of '#{attr_name}' attribute is required"}.merge!(opts)
       @errors << opts[:message] if self.send(attr_name).nil?
     end
 
     def validate_unique(attr_name, opts={})
-      opts.merge!(message: "Validation Error: Uniqueness of '#{attr_name}' attribute is required")
+      opts = {message: "Validation Error: Uniqueness of '#{attr_name}' attribute is required"}.merge!(opts)
       attr_value = self.send(attr_name)
       query = self.class.query
       query = query.where("id != #{id}") unless new_record?

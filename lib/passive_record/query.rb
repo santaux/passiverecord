@@ -83,7 +83,6 @@ module PassiveRecord
 
     # PassiveRecord::Adapter.executes the search of chain
     def fire
-      puts to_sql # sql explanation
       PassiveRecord::Adapter.execute to_sql
     end
 
@@ -94,7 +93,6 @@ module PassiveRecord
     end
 
     def count
-      puts to_sql # sql explanation
       result = PassiveRecord::Adapter.run(to_sql("COUNT(*)")).flatten.first.to_i
       reset
       result

@@ -7,10 +7,6 @@ module PassiveRecord
 
     attr_reader :id
 
-    def self.included(mod)
-      puts "Included: #{mod}"
-    end
-
     def inspect
       self.class.set_attributes
 
@@ -28,7 +24,7 @@ module PassiveRecord
     # define accessors as table columns names
     def method_missing(meth, *args, &block)
       if self.class.columns.include?(meth.to_s.sub(/=$/, ''))
-        Item.set_attributes
+        self.class.set_attributes
         send(meth, *args)
       else
         super

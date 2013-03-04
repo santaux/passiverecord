@@ -37,11 +37,13 @@ module PassiveRecord
 
       # execute2 returns columns names first:
       def execute(sql)
+        super
         @database.execute2 sql
       end
 
       # the same as 'execute', but without columns names
       def run(sql)
+        super
         @database.execute sql
       end
 
@@ -50,6 +52,7 @@ module PassiveRecord
       end
 
       def insert_transaction(sql)
+        super
         last_insert_row_id = nil
         transaction {
           execute sql
@@ -71,7 +74,7 @@ module PassiveRecord
       end
 
       def table_names
-        @_table_names ||= execute("SELECT name FROM sqlite_master").flatten
+        @_table_names ||= run("SELECT name FROM sqlite_master").flatten
       end
     end
   end

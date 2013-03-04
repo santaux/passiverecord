@@ -5,7 +5,7 @@ require 'passive_record/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "passive_record"
-  spec.version       = Passiverecord::VERSION
+  spec.version       = PassiveRecord::VERSION
   spec.authors       = ["santaux"]
   spec.email         = ["santaux@gmail.com"]
   spec.description   = %q{TODO: Write a gem description}

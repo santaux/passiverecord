@@ -1,4 +1,5 @@
 require 'active_support/concern'
+require 'active_support/core_ext/module/delegation'
 
 module PassiveRecord
   module Action
@@ -54,14 +55,14 @@ module PassiveRecord
         values = opts.values.map { |v| add_quotes(v)  }.join(',')
         sql =  "INSERT INTO #{table_name} (#{fields}) VALUES (#{values})"
 
-        insert_transaction sql
+        PassiveRecord::Adapter.insert_transaction sql
       end
 
       def update_all(update_opt,where_opt=nil)
         sql =  "UPDATE #{table_name} SET #{update_opt}"
         sql += " WHERE " + where_opt.to_s if where_opt
 
-        execute sql
+        PassiveRecord::Adapter.execute sql
         true
       end
 
@@ -69,24 +70,13 @@ module PassiveRecord
         sql =  "DELETE FROM #{table_name} "
         sql += "WHERE " + where_opt.to_s if where_opt
 
-        execute sql
+        PassiveRecord::Adapter.execute sql
       end
 
       def add_quotes(value)
         value.is_a?(Integer) ? value : "'#{value.to_s}'"
       end
 
-      protected
-
-      def insert_transaction(sql)
-        puts sql # explain sql
-        PassiveRecord::Adapter.insert_transaction(sql)
-      end
-
-      def execute(sql)
-        puts sql # explain sql
-        PassiveRecord::Adapter.execute(sql)
-      end
     end
   end
 end

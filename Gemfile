@@ -4,4 +4,7 @@ source 'http://rubygems.org'
 gem 'sqlite3'
 gem 'mysql2'
 gem 'activesupport'
+gem 'rspec'
+gem "rr"
+gem 'faker'
 gemspec

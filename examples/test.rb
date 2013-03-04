@@ -1,10 +1,7 @@
-load './lib/passive_record/attributes.rb'
-load './lib/passive_record/action.rb'
-load './lib/passive_record/association.rb'
-load './lib/passive_record/validation.rb'
-load './lib/passive_record/adapter.rb'
-load './lib/passive_record/query.rb'
-load './lib/passive_record/base.rb'
+lib = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require 'passive_record'
 
 @adapter = PassiveRecord::Adapter.connect({adapter: "sqlite", database: "test.sqlite3", explain: true})
 

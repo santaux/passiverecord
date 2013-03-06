@@ -37,7 +37,7 @@ module PassiveRecord
 
     def update_attributes(opts)
       opts.each do |key,value|
-        instance_variable_set(:"@#{key}", value)
+        send("#{key}=", value)
       end
       save
     end

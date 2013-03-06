@@ -1,3 +1,5 @@
+require 'active_support/core_ext/module/delegation.rb'
+
 module PassiveRecord
   class Query
     attr_accessor :table_name, :where_list, :order_by, :limit_with
@@ -136,9 +138,7 @@ module PassiveRecord
 
   module Quering
     def method_missing(meth, *args, &block)
-      if [:all, :find, :where, :order, :limit, :count, :first, :exists?].include? meth.to_sym
-        launch_query(meth, *args)
-      elsif meth.to_s =~ /^find_by_(\w+)$/
+      if meth.to_s =~ /^find_by_(\w+)$/
         query.find_by_field($1, args[0])
       else
         super
@@ -149,10 +149,6 @@ module PassiveRecord
       PassiveRecord::Query.new(self.table_name)
     end
 
-    protected
-
-    def launch_query(meth, *args)
-      query.send(meth, *args)
-    end
+    delegate :all, :find, :where, :order, :limit, :count, :first, :exists?, :to => :query
   end
 end

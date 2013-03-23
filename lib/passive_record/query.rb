@@ -19,7 +19,7 @@ module PassiveRecord
     module ArrayMethods
       def first(n=1)
         result = limit(n).load
-        result = result[0] if result.size == 1
+        result = result[0] if result.size <= 1
         reset
         result
       end

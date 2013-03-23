@@ -1,7 +1,56 @@
 require 'active_support/core_ext/module/delegation.rb'
 
 module PassiveRecord
+  module Quering
+    def method_missing(meth, *args, &block)
+      if meth.to_s =~ /^find_by_(\w+)$/
+        query.find_by_field($1, args[0])
+      else
+        super
+      end
+    end
+
+    def query
+      PassiveRecord::Query.new(self.table_name)
+    end
+
+    delegate :all, :find, :where, :order, :limit, :count, :first, :exists?, :to => :query
+
+    module ArrayMethods
+      def first(n=1)
+        result = limit(n).load
+        result = result[0] if result.size == 1
+        reset
+        result
+      end
+
+      def last(n=nil)
+        all = load
+        result = n ? all[(all.size-n)..(all.size-1)] : all[all.size-1]
+        reset
+        result
+      end
+
+      def [](index)
+        load[index]
+      end
+
+      def count
+        result = PassiveRecord::Adapter.run(to_sql("COUNT(*)")).flatten.first.to_i
+        reset
+        result
+      end
+
+      def size
+        count
+      end
+    end
+  end
+
   class Query
+    include Enumerable
+    include PassiveRecord::Quering::ArrayMethods
+
     attr_accessor :table_name, :where_list, :order_by, :limit_with
 
     def initialize(table_name)
@@ -88,18 +137,6 @@ module PassiveRecord
       PassiveRecord::Adapter.execute to_sql
     end
 
-    def first
-      result = limit(1).load[0]
-      reset
-      result
-    end
-
-    def count
-      result = PassiveRecord::Adapter.run(to_sql("COUNT(*)")).flatten.first.to_i
-      reset
-      result
-    end
-
     def exists?(where_opt)
       !where(where_opt).count.zero?
     end
@@ -107,6 +144,11 @@ module PassiveRecord
     def reset
       @where_list = []
       @order_by, @limit_with = nil
+    end
+
+    def each(&block)
+      #load.each { |el| block.call(el) }
+      load.each &block
     end
 
     private
@@ -134,21 +176,5 @@ module PassiveRecord
     def add_quotes(value)
       value.is_a?(String) ? "'#{value}'" : value
     end
-  end
-
-  module Quering
-    def method_missing(meth, *args, &block)
-      if meth.to_s =~ /^find_by_(\w+)$/
-        query.find_by_field($1, args[0])
-      else
-        super
-      end
-    end
-
-    def query
-      PassiveRecord::Query.new(self.table_name)
-    end
-
-    delegate :all, :find, :where, :order, :limit, :count, :first, :exists?, :to => :query
   end
 end

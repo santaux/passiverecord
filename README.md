@@ -87,4 +87,4 @@ You could find more examples into rspec tests
 
 ## TODO
 
-Implement enumerable and more functionality
+Add docs for enumerable and array methods usage
